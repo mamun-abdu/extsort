@@ -1,28 +1,63 @@
 # extsort
 
-Tiny Python CLI that sorts files in a folder into subfolders by extension.
+Small Python 3.9+ CLI that sorts the files in a folder into subfolders named by extension. Standard library only.
 
-Example: `report.pdf`, `notes.txt`, and `photo.jpg` in `Downloads/` become `pdf/`, `txt/`, and `jpg/`.
+## Problem
 
-## Requirements
+One folder fills up with PDFs, notes, and photos mixed together. This moves each file into a folder named for its extension, with nothing to install.
 
-- Python 3.9+
-- No third-party packages
+## How to run
 
-## Usage
+Python 3.9 or newer. No third-party packages.
 
 ```bash
-python extsort.py ~/Downloads --dry-run
-python extsort.py ~/Downloads
+python3 extsort.py ~/Downloads --dry-run
+python3 extsort.py ~/Downloads
 ```
 
-Options:
+The folder defaults to the current directory.
 
-- `-n` / `--dry-run` — print the plan without moving files
-- `-r` / `--recursive` — also pick up files in nested folders (still drops them into top-level extension folders)
+- `-n` / `--dry-run` — print the plan and leave files where they are
+- `-r` / `--recursive` — also take files from nested folders, then drop them into top-level extension folders
 
-Files with no extension go into `_no_ext/`. Existing destination files are skipped.
+Extensions are lowercased. A file with no extension goes to `_no_ext/`. If that name already exists in the destination, the file is skipped.
 
-## Why
+## Example
 
-I keep dumping mixed files into one folder. This is the smallest script that cleans that up without asking me to install anything.
+Before:
+
+```text
+Downloads/
+├── notes.txt
+├── report.pdf
+├── photo.jpg
+└── README
+```
+
+```bash
+python3 extsort.py Downloads --dry-run
+```
+
+```text
+would move: notes.txt -> txt/
+would move: report.pdf -> pdf/
+would move: photo.jpg -> jpg/
+would move: README -> _no_ext/
+Would sort 4 file(s).
+```
+
+After a real run, the same folder looks like this:
+
+```text
+Downloads/
+├── jpg/photo.jpg
+├── pdf/report.pdf
+├── txt/notes.txt
+└── _no_ext/README
+```
+
+Running it again prints `Nothing to sort.`
+
+## License
+
+MIT. See [LICENSE](LICENSE).
