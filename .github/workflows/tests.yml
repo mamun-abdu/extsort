@@ -26,3 +26,5 @@ jobs:
           tmp="$(mktemp -d)"
           printf 'hello\n' > "${tmp}/notes.txt"
           python extsort.py "${tmp}"
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v

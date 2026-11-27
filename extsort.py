@@ -38,13 +38,14 @@ def plan_moves(folder: Path, files: list[Path]) -> list[tuple[Path, Path]]:
 def apply_moves(moves: list[tuple[Path, Path]], dry_run: bool) -> int:
     count = 0
     for src, dest in moves:
+        if dest.exists():
+            prefix = "would skip" if dry_run else "skip"
+            print(f"{prefix} (exists): {dest}", file=sys.stderr)
+            continue
         if dry_run:
             print(f"would move: {src.name} -> {dest.parent.name}/")
         else:
             dest.parent.mkdir(parents=True, exist_ok=True)
-            if dest.exists():
-                print(f"skip (exists): {dest}", file=sys.stderr)
-                continue
             shutil.move(str(src), str(dest))
             print(f"moved: {src.name} -> {dest.parent.name}/")
         count += 1
