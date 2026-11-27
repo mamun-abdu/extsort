@@ -1,10 +1,10 @@
 # extsort
 
-Small Python 3.9+ CLI that sorts the files in a folder into subfolders named by extension. Standard library only.
+A small Python CLI that tidies a messy folder by moving each file into a subfolder named after its extension. Standard library only, one file, nothing to install.
 
-## Problem
+## Why
 
-One folder fills up with PDFs, notes, and photos mixed together. This moves each file into a folder named for its extension, with nothing to install.
+A Downloads folder fills up with PDFs, notes, and photos all mixed together. `extsort` puts them into `pdf/`, `txt/`, `jpg/`, and so on, and `--dry-run` lets you see the plan before anything moves.
 
 ## How to run
 
@@ -20,7 +20,9 @@ The folder defaults to the current directory.
 - `-n` / `--dry-run` — print the plan and leave files where they are
 - `-r` / `--recursive` — also take files from nested folders, then drop them into top-level extension folders
 
-Extensions are lowercased. A file with no extension goes to `_no_ext/`. If that name already exists in the destination, the file is skipped.
+Extensions are lowercased, so `Photo.JPG` goes to `jpg/`. A file with no extension goes to `_no_ext/`. If a file with the same name is already in the destination folder, it is skipped and left where it is (nothing is overwritten). A dry run reports those skips too.
+
+On Windows, use `python extsort.py` instead of `python3 extsort.py`.
 
 ## Example
 
@@ -57,6 +59,12 @@ Downloads/
 ```
 
 Running it again prints `Nothing to sort.`
+
+## Tests
+
+```bash
+python3 -m unittest discover -s tests -v
+```
 
 ## License
 
